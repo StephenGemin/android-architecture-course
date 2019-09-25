@@ -1,4 +1,4 @@
-package com.techyourchance.mvc.common;
+package com.techyourchance.mvc.screens.common;
 
 import android.view.View;
 

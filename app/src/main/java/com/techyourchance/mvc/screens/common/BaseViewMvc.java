@@ -3,8 +3,6 @@ package com.techyourchance.mvc.screens.common;
 import android.content.Context;
 import android.view.View;
 
-import com.techyourchance.mvc.common.ViewMvc;
-
 /**
  * Created by Stephen Gemin on 9/24/2019
  */

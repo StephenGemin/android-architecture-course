@@ -1,4 +1,6 @@
-package com.techyourchance.mvc.common;
+package com.techyourchance.mvc.screens.common;
+
+import com.techyourchance.mvc.screens.common.ViewMvc;
 
 /**
  * Created by Stephen Gemin on 9/24/2019
