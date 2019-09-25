@@ -21,7 +21,7 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         void onQuestionClicked(Question question);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         private final QuestionsListItemViewMvc mViewMvc;
 
         public MyViewHolder(QuestionsListItemViewMvc viewMvc) {
