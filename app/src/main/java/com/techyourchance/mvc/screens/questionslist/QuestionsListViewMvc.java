@@ -1,7 +1,6 @@
 package com.techyourchance.mvc.screens.questionslist;
 
 import com.techyourchance.mvc.common.ObservableViewMvc;
-import com.techyourchance.mvc.common.ViewMvc;
 import com.techyourchance.mvc.questions.Question;
 
 import java.util.List;
