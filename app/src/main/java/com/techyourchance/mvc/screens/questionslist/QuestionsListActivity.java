@@ -25,7 +25,7 @@ public class QuestionsListActivity extends BaseActivity
         implements QuestionsListViewMvcImpl.Listener {
 
     private StackoverflowApi mStackoverflowApi;
-    private QuestionListViewMvc mViewMvc;
+    private QuestionsListViewMvc mViewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Stephen Gemin on 9/23/2019
  */
 public class QuestionsListViewMvcImpl implements QuestionsRecyclerAdapter.Listener,
-        QuestionListViewMvc  {
+        QuestionsListViewMvc {
 
     private RecyclerView mRecyclerQuestions;
     private QuestionsRecyclerAdapter mAdapter;
