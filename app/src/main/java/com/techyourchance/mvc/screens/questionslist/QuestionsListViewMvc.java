@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Stephen Gemin on 9/23/2019
  */
-interface QuestionsListViewMvc extends ObservableViewMvc<QuestionsListViewMvc.Listener> {
+public interface QuestionsListViewMvc extends ObservableViewMvc<QuestionsListViewMvc.Listener> {
 
     public interface Listener {
         void onQuestionClicked(Question question);
