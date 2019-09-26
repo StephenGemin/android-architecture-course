@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Created by Stephen Gemin on 9/25/2019
  */
-class QuestionDetailsResponseSchema {
+public class QuestionDetailsResponseSchema {
 
-    @SerializedName("item")
+    @SerializedName("items")
     private final List<QuestionSchema> mQuestions;
 
     public QuestionDetailsResponseSchema(QuestionSchema question) {

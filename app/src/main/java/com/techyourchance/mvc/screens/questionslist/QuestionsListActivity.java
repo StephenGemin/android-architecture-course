@@ -70,7 +70,7 @@ public class QuestionsListActivity extends BaseActivity
     }
 
     private void networkCallFailed() {
-        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_LONG).show();
     }
 
     @Override
