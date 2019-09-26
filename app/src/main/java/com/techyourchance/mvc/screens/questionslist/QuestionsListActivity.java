@@ -33,12 +33,7 @@ public class QuestionsListActivity extends BaseActivity
 
         mViewMvc = new QuestionsListViewMvcImpl(LayoutInflater.from(this),null);
         mViewMvc.registerListener(this);
-
-        mStackoverflowApi = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(StackoverflowApi.class);
+        mStackoverflowApi = getCompositionRoot().getStackoverflowApi();
 
         setContentView(mViewMvc.getRootView());
     }
