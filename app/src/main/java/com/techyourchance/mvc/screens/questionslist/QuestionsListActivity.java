@@ -30,6 +30,8 @@ public class QuestionsListActivity extends BaseActivity
         super.onStart();
         mViewMvc.registerListener(this);
         mFetchQuestionListUseCase.registerListener(this);
+
+        mViewMvc.showProgressIndication();
         mFetchQuestionListUseCase.fetchQuestionListAndNotify();
     }
 
@@ -42,6 +44,7 @@ public class QuestionsListActivity extends BaseActivity
 
     @Override
     public void onQuestionListFetchSuccess(List<Question> questions) {
+        mViewMvc.hideProgressIndication();
         mViewMvc.bindQuestions(questions);
     }
 

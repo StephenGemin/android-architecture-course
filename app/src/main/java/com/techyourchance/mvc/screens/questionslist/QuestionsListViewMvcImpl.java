@@ -4,7 +4,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.techyourchance.mvc.R;
 import com.techyourchance.mvc.questions.Question;
@@ -21,10 +23,14 @@ public class QuestionsListViewMvcImpl extends BaseObservableViewMvc<QuestionsLis
 
     private RecyclerView mRecyclerQuestions;
     private QuestionsRecyclerAdapter mAdapter;
+    private final ProgressBar mProgressBar;
 
     public QuestionsListViewMvcImpl(LayoutInflater inflater, @Nullable ViewGroup parent,
                                     ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.layout_questions_list, parent, false));
+
+        mProgressBar = findViewById(R.id.question_list_progress_bar);
+
         mRecyclerQuestions = findViewById(R.id.recycler_questions);
         mRecyclerQuestions.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new QuestionsRecyclerAdapter(this, viewMvcFactory);
@@ -41,5 +47,15 @@ public class QuestionsListViewMvcImpl extends BaseObservableViewMvc<QuestionsLis
         for (Listener listener : getListeners()) {
             listener.onQuestionClicked(question);
         }
+    }
+
+    @Override
+    public void showProgressIndication() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressIndication() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }

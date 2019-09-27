@@ -1,5 +1,7 @@
 package com.techyourchance.mvc.screens.questionslist;
 
+import android.view.View;
+
 import com.techyourchance.mvc.screens.common.ObservableViewMvc;
 import com.techyourchance.mvc.questions.Question;
 
@@ -15,4 +17,8 @@ public interface QuestionsListViewMvc extends ObservableViewMvc<QuestionsListVie
     }
 
     void bindQuestions(List<Question> questions);
+
+    void showProgressIndication();
+
+    void hideProgressIndication();
 }
