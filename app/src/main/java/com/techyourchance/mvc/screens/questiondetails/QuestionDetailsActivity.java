@@ -46,10 +46,14 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
         mFetchQuestionDetailsUseCase.unregisterListener(this);
     }
 
-    @Override
-    public void onQuestionDetailsFetched(QuestionDetails questionDetails) {
+    public void bindQuestionDetails(QuestionDetails questionDetails) {
         mViewMvc.hideProgressIndication();
         mViewMvc.bindQuestions(questionDetails);
+    }
+
+    @Override
+    public void onQuestionDetailsFetched(QuestionDetails questionDetails) {
+        bindQuestionDetails(questionDetails);
     }
 
     @Override
