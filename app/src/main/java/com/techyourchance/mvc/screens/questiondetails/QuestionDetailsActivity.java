@@ -7,21 +7,15 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.techyourchance.mvc.R;
-import com.techyourchance.mvc.networking.QuestionDetailsResponseSchema;
-import com.techyourchance.mvc.networking.QuestionSchema;
-import com.techyourchance.mvc.networking.StackoverflowApi;
+import com.techyourchance.mvc.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.mvc.questions.QuestionDetails;
 import com.techyourchance.mvc.screens.common.BaseActivity;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class QuestionDetailsActivity extends BaseActivity {
+public class QuestionDetailsActivity extends BaseActivity implements FetchQuestionDetailsUseCase.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
-    private StackoverflowApi mStackoverflowApi;
     private QuestionDetailsViewMvcImpl mViewMvc;
+    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
 
     public static void start(Context context, String questionId) {
         Intent intent = new Intent(context, QuestionDetailsActivity.class);
@@ -33,7 +27,7 @@ public class QuestionDetailsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewMvc = getCompositionRoot().getViewMvcFactory().getQuestionDetailsViewMvc(null);
-        mStackoverflowApi = getCompositionRoot().getStackoverflowApi();
+        mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
         setContentView(mViewMvc.getRootView());
     }
@@ -41,38 +35,25 @@ public class QuestionDetailsActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mFetchQuestionDetailsUseCase.registerListener(this);
         mViewMvc.showProgressIndication();
-        fetchQuestionDetails();
+        mFetchQuestionDetailsUseCase.fetchQuestionDetailsAndNotify(getQuestionId());
     }
 
-    private void fetchQuestionDetails() {
-        mStackoverflowApi.fetchQuestionDetails(getQuestionId())
-                .enqueue(new Callback<QuestionDetailsResponseSchema>() {
-                    @Override
-                    public void onResponse(Call<QuestionDetailsResponseSchema> call, Response<QuestionDetailsResponseSchema> response) {
-                        if (response.isSuccessful()) {
-                            bindQuestions(response.body().getQuestions());
-                        } else {
-                            onFetchFailure();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<QuestionDetailsResponseSchema> call, Throwable t) {
-                        onFetchFailure();
-                    }
-                });
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mFetchQuestionDetailsUseCase.unregisterListener(this);
     }
 
-    public void bindQuestions(QuestionSchema question) {
-        mViewMvc.bindQuestions(new QuestionDetails(
-                question.getId(),
-                question.getTitle(),
-                question.getBody()));
+    @Override
+    public void onQuestionDetailsFetched(QuestionDetails questionDetails) {
         mViewMvc.hideProgressIndication();
+        mViewMvc.bindQuestions(questionDetails);
     }
 
-    public void onFetchFailure() {
+    @Override
+    public void onQuestionDetailsFetchedFailed() {
         mViewMvc.hideProgressIndication();
         Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
     }
