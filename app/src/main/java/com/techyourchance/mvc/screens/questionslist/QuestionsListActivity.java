@@ -4,73 +4,50 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.techyourchance.mvc.R;
-import com.techyourchance.mvc.common.Constants;
-import com.techyourchance.mvc.networking.QuestionSchema;
-import com.techyourchance.mvc.networking.QuestionsListResponseSchema;
-import com.techyourchance.mvc.networking.StackoverflowApi;
+import com.techyourchance.mvc.questions.FetchQuestionListUseCase;
 import com.techyourchance.mvc.questions.Question;
 import com.techyourchance.mvc.screens.common.BaseActivity;
 import com.techyourchance.mvc.screens.questiondetails.QuestionDetailsActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class QuestionsListActivity extends BaseActivity
-        implements QuestionsListViewMvcImpl.Listener {
+        implements QuestionsListViewMvcImpl.Listener, FetchQuestionListUseCase.Listener {
 
-    private StackoverflowApi mStackoverflowApi;
     private QuestionsListViewMvc mViewMvc;
+    private FetchQuestionListUseCase mFetchQuestionListUseCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mViewMvc = getCompositionRoot().getViewMvcFactory().getQuestionsListViewMvc(null);
-        mViewMvc.registerListener(this);
-        mStackoverflowApi = getCompositionRoot().getStackoverflowApi();
-
+        mFetchQuestionListUseCase = getCompositionRoot().getFetchQuestionListUseCase();
         setContentView(mViewMvc.getRootView());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        fetchQuestions();
+        mViewMvc.registerListener(this);
+        mFetchQuestionListUseCase.registerListener(this);
+        mFetchQuestionListUseCase.fetchQuestionListAndNotify();
     }
 
-    private void fetchQuestions() {
-        mStackoverflowApi.fetchLastActiveQuestions(Constants.QUESTIONS_LIST_PAGE_SIZE)
-                .enqueue(new Callback<QuestionsListResponseSchema>() {
-                    @Override
-                    public void onResponse(Call<QuestionsListResponseSchema> call, Response<QuestionsListResponseSchema> response) {
-                        if (response.isSuccessful()) {
-                            bindQuestions(response.body().getQuestions());
-                        } else {
-                            networkCallFailed();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<QuestionsListResponseSchema> call, Throwable t) {
-                        networkCallFailed();
-                    }
-                } );
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mViewMvc.unregisterListener(this);
+        mFetchQuestionListUseCase.unregisterListener(this);
     }
 
-    private void bindQuestions(List<QuestionSchema> questionSchemas) {
-        List<Question> questions = new ArrayList<>(questionSchemas.size());
-        for (QuestionSchema questionSchema : questionSchemas) {
-            questions.add(new Question(questionSchema.getId(), questionSchema.getTitle()));
-        }
+    @Override
+    public void onQuestionListFetchSuccess(List<Question> questions) {
         mViewMvc.bindQuestions(questions);
     }
 
-    private void networkCallFailed() {
-        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_LONG).show();
+    @Override
+    public void onQuestionListFetchFailure() {
+        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
     }
 
     @Override
