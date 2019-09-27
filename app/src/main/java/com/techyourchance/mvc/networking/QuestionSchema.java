@@ -1,6 +1,7 @@
 package com.techyourchance.mvc.networking;
 
 import com.google.gson.annotations.SerializedName;
+import com.techyourchance.mvc.networking.user.UserSchema;
 
 public class QuestionSchema {
 

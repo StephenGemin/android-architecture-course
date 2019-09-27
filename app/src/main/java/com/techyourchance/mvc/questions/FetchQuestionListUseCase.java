@@ -2,9 +2,9 @@ package com.techyourchance.mvc.questions;
 
 import com.techyourchance.mvc.common.Constants;
 import com.techyourchance.mvc.networking.QuestionSchema;
-import com.techyourchance.mvc.networking.QuestionsListResponseSchema;
+import com.techyourchance.mvc.networking.questions.QuestionsListResponseSchema;
 import com.techyourchance.mvc.networking.StackoverflowApi;
-import com.techyourchance.mvc.screens.common.BaseObservable;
+import com.techyourchance.mvc.screens.common.views.BaseObservable;
 
 import java.util.ArrayList;
 import java.util.List;

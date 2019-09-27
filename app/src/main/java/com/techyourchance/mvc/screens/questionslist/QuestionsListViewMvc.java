@@ -1,8 +1,6 @@
 package com.techyourchance.mvc.screens.questionslist;
 
-import android.view.View;
-
-import com.techyourchance.mvc.screens.common.ObservableViewMvc;
+import com.techyourchance.mvc.screens.common.views.ObservableViewMvc;
 import com.techyourchance.mvc.questions.Question;
 
 import java.util.List;

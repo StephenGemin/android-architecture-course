@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.techyourchance.mvc.R;
 import com.techyourchance.mvc.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.mvc.questions.QuestionDetails;
-import com.techyourchance.mvc.screens.common.BaseActivity;
+import com.techyourchance.mvc.screens.common.controllers.BaseActivity;
 
 public class QuestionDetailsActivity extends BaseActivity implements FetchQuestionDetailsUseCase.Listener {
 

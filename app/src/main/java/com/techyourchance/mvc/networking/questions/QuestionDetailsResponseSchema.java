@@ -1,6 +1,7 @@
-package com.techyourchance.mvc.networking;
+package com.techyourchance.mvc.networking.questions;
 
 import com.google.gson.annotations.SerializedName;
+import com.techyourchance.mvc.networking.QuestionSchema;
 
 import java.util.Collections;
 import java.util.List;
