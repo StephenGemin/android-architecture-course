@@ -11,7 +11,8 @@ import com.techyourchance.mvc.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.mvc.questions.QuestionDetails;
 import com.techyourchance.mvc.screens.common.controllers.BaseActivity;
 
-public class QuestionDetailsActivity extends BaseActivity implements FetchQuestionDetailsUseCase.Listener {
+public class QuestionDetailsActivity extends BaseActivity
+        implements FetchQuestionDetailsUseCase.Listener, QuestionDetailsViewMvc.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
     private QuestionDetailsViewMvc mViewMvc;
@@ -36,6 +37,7 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
     protected void onStart() {
         super.onStart();
         mFetchQuestionDetailsUseCase.registerListener(this);
+        mViewMvc.registerListener(this);
         mViewMvc.showProgressIndication();
         mFetchQuestionDetailsUseCase.fetchQuestionDetailsAndNotify(getQuestionId());
     }
@@ -44,6 +46,7 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
     protected void onStop() {
         super.onStop();
         mFetchQuestionDetailsUseCase.unregisterListener(this);
+        mViewMvc.unregisterListener(this);
     }
 
     public void bindQuestionDetails(QuestionDetails questionDetails) {
@@ -64,5 +67,10 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
 
     private String getQuestionId() {
         return getIntent().getStringExtra(EXTRA_QUESTION_ID);
+    }
+
+    @Override
+    public void onNavigateUpClicked() {
+        onBackPressed();
     }
 }

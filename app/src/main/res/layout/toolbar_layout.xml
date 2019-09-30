@@ -14,7 +14,7 @@
         android:padding="12dp"
         android:background="@color/transparent"
         android:src="@drawable/ic_arrow_back"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
     <TextView
